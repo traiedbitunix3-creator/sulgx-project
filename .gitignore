@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Local env / secrets — هرگز کامیت نشوند
+.env
+*.env.local
+
+# Local SQLite (فقط برای dev محلی؛ روی Railway از Postgres استفاده می‌شود)
+data/
+*.db
+*.sqlite3
+
+# Node / webapp build
+webapp/node_modules/
+webapp/dist/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,25 @@
+# پیکربندی Build/Start برای Railway (Nixpacks) — بدون نیاز به Docker.
+# این پروژه هم Python (FastAPI + bot) و هم Node.js (build فرانت‌اند React
+# داخل webapp/) لازم دارد، به همین دلیل هر دو toolchain صریحاً اضافه شده‌اند.
+#
+# این فایل پیش‌فرض سرویس "backend" (web) است: نصب وابستگی‌های پایتون،
+# نصب و build فرانت‌اند، و اجرای uvicorn.
+# برای سرویس "bot" (worker) در Railway، فقط کافیست در تنظیمات همان سرویس
+# (Settings -> Deploy -> Start Command) مقدار زیر را ست کنید تا این
+# start command پیش‌فرض override شود:
+#     python -m bot.main
+
+[phases.setup]
+nixPkgs = ["python311", "python311Packages.pip", "nodejs_20"]
+
+[phases.install]
+cmds = [
+  "pip install --no-cache-dir -r requirements.txt",
+  "npm --prefix webapp install"
+]
+
+[phases.build]
+cmds = ["npm --prefix webapp run build"]
+
+[start]
+cmd = "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
